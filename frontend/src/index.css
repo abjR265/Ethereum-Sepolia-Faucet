@@ -209,6 +209,16 @@ body {
   font-size: 0.9375rem;
 }
 
+.input-invalid {
+  border-color: #f87171 !important;
+}
+
+.input-hint {
+  margin: -0.75rem 0 1rem;
+  font-size: 0.8125rem;
+  color: #f87171;
+}
+
 /* How it works */
 .how {
   width: 100%;

@@ -5,6 +5,12 @@ const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 const SEPOLIA_EXPLORER = "https://sepolia.etherscan.io";
 const ETHEREUM_ORG = "https://ethereum.org";
 
+const ETH_ADDRESS_RE = /^0x[0-9a-fA-F]{40}$/;
+
+function isValidEthAddress(addr: string): boolean {
+  return ETH_ADDRESS_RE.test(addr.trim());
+}
+
 type Status = "idle" | "loading" | "success" | "error";
 
 interface SuccessData {
@@ -47,10 +53,20 @@ export default function App() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState<SuccessData | null>(null);
 
+  const trimmedAddress = address.trim();
+  const addressInvalid = trimmedAddress.length > 0 && !isValidEthAddress(trimmedAddress);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setSuccess(null);
+
+    if (!trimmedAddress || !isValidEthAddress(trimmedAddress)) {
+      setError("Please enter a valid Ethereum address (0x followed by 40 hex characters).");
+      setStatus("error");
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -112,8 +128,13 @@ export default function App() {
               onChange={(e) => setAddress(e.target.value)}
               disabled={status === "loading"}
               autoComplete="off"
+              aria-invalid={addressInvalid || undefined}
+              className={addressInvalid ? "input-invalid" : undefined}
             />
-            <button type="submit" disabled={status === "loading"}>
+            {addressInvalid && (
+              <p className="input-hint">Address must be 0x followed by 40 hex characters.</p>
+            )}
+            <button type="submit" disabled={status === "loading" || addressInvalid || !trimmedAddress}>
               {status === "loading" ? "Sending…" : "Request Sepolia ETH"}
             </button>
           </form>
