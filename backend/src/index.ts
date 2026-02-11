@@ -4,7 +4,12 @@ import { config } from "./config";
 import faucetRoutes from "./routes/faucet";
 
 const app = express();
-app.use(cors());
+
+const corsOrigin = config.corsOrigin === "*"
+  ? "*"
+  : config.corsOrigin.split(",").map((o) => o.trim());
+
+app.use(cors({ origin: corsOrigin }));
 app.use(express.json());
 
 app.get("/health", (_req, res) => {
