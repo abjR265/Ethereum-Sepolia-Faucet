@@ -93,14 +93,17 @@ The app will be available at `http://localhost:5173`.
 
 ## Deployment
 
-Once deployed, update the environment variables to point to the live URLs:
+| Service | URL |
+|---|---|
+| **Frontend** | [https://ethereum-sepolia-faucet.vercel.app](https://ethereum-sepolia-faucet.vercel.app) |
+| **Backend** | [https://ethereum-sepolia-faucet.onrender.com](https://ethereum-sepolia-faucet.onrender.com) |
 
-| Variable | Where | Example |
+Environment variables for production:
+
+| Variable | Where | Value |
 |---|---|---|
-| `CORS_ORIGIN` | Backend `.env` | `https://your-frontend-domain.com` |
-| `VITE_API_URL` | Frontend `.env` | `https://your-backend-domain.com` |
-
-> **Note:** Replace the example URLs above with your actual deployed frontend and backend domains.
+| `CORS_ORIGIN` | Backend (Render) | `https://ethereum-sepolia-faucet.vercel.app` |
+| `VITE_API_URL` | Frontend (Vercel) | `https://ethereum-sepolia-faucet.onrender.com` |
 
 ## Guardrails
 
